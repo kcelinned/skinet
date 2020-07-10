@@ -10,26 +10,36 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
+    // seeds the database with information taken from cvs files that were turned in to json files
     public class StoreContextSeed
     {
-
+        // allows you to use the method without creating an instance of the class 
         public static async Task SeedAsync(StoreContext context, ILoggerFactory loggerFactory)
         {
             try
             {
+                // checks if the ProductBrands table has any data 
                 if (!context.ProductBrands.Any())
                 {
+
+                    //otherwise it will read from the json file 
                     var brandsData = File.ReadAllText("../Infrastructure/Data/SeedData/brands.json");
+                    // convert the json into a list of productbrand objects
                     var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
+                    // adds each one into the table in the databse
                     foreach (var item in brands)
                     {
                         context.ProductBrands.Add(item);
                     }
 
+
+                    // saves all changes to database
                     await context.SaveChangesAsync();
                 }
 
+
+                
                 if (!context.ProductTypes.Any())
                 {
                     var typesData = File.ReadAllText("../Infrastructure/Data/SeedData/types.json");

@@ -11,22 +11,24 @@ namespace API
 {
     public class Program
     {
+        
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            // using makes sure everything inside the statement is disposed as soon as the method is finished
-            using(var scope = host.Services.CreateScope())
+            // "using" makes sure everything inside the statement is disposed as soon as the method is finished
+            using(var scope = host.Services.CreateScope()) //
             {
+                // gets all our services 
                 var services = scope.ServiceProvider;
                 // LoggerFactory?
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
                     var context = services.GetRequiredService<StoreContext>();
-                    // applies any pending migrations to the context to the database
-                    // or creates the database if it exists 
+                    // applies any pending migrations to the context to the database or creates the database if it exists 
                     // as soon as the application starts 
                     await context.Database.MigrateAsync();
+                    // seeds the database 
                     await StoreContextSeed.SeedAsync(context, loggerFactory);
                 }
                 catch(Exception ex)

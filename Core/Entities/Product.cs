@@ -3,6 +3,8 @@ using System.Reflection.Emit;
 
 namespace Core.Entities
 {
+
+    // Creates the model for a Product 
 	public class Product : BaseEntity
 	{
         public string Name { get; set; }
