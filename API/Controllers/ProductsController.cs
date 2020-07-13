@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Infrastructure.Data;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
 using Core.Specifications;
 using API.Dtos;
-using AutoMapper.Configuration;
 using AutoMapper;
+using API.Errors;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Controllers
 {
-    
-	[ApiController] //states that the controller is an API Controller
+
+    [ApiController] //states that the controller is an API Controller
 	[Route("api/[controller]")] //states the beginning of the url 
-	public class ProductsController : ControllerBase //inherits from ControllerBase from the AspNetCore.MVC 
+	public class ProductsController : BaseApiController //inherits from ControllerBase from the AspNetCore.MVC 
 	{
         private readonly IGenericRepository<Product> _productsRepo;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
@@ -54,11 +51,15 @@ namespace API.Controllers
         // method to get a specific product with parameter Id 
         // url is "/api/products/{id}" => id is an integer aka "api/products/2" 
 		[HttpGet("{id}")]
+        // tells swagger and us specifically what could be returned 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
 		public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
         {
             // uses the method in the repository class 
             var spec = new ProductsWithTypesandBrandsSpecification(id);
 			var product = await _productsRepo.GetEntityWithSpec(spec);
+            if (product == null) return NotFound(new ApiResponse(404));
 
             return _mapper.Map<Product, ProductToReturnDto>(product);
         }
