@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\API\\Controllers",
-    "\\API\\Dtos",
-    "\\API\\Helpers"
+    ""
   ],
-  "SelectedNode": "\\skinet.sln",
+  "SelectedNode": "\\client",
   "PreviewInSolutionExplorer": false
 }
