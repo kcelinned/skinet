@@ -76,15 +76,15 @@ namespace API.Controllers
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
         {
             // use Ok as you can't convert a readonly list to a 
-            return Ok(await _productTypeRepo.ListAllAsync());
+            return Ok(await _productBrandRepo.ListAllAsync());
         }
 
         //method to get a list of the types using method in repository class 
         // url is "/api/products/types"
         [HttpGet("types")]
-        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductTypes()
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
         {
-            return Ok(await _productBrandRepo.ListAllAsync());
+            return Ok(await _productTypeRepo.ListAllAsync());
         }
 
     }
