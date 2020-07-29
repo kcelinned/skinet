@@ -52,7 +52,7 @@ namespace API.Controllers
         public ActionResult GetBadReqest(int id)
         {
 
-            return Ok();
+            return BadRequest();
         }
 
     }
