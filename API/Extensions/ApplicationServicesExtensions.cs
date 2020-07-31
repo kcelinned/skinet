@@ -18,8 +18,8 @@ namespace API.Extensions
         {
             // added the application service and makes sure it starts and ends with the requests' lifetime
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
-
 
             // overrides ApiController to change the way validation errors are returened
             // changes the modelstate that the errors are usually kept in 
